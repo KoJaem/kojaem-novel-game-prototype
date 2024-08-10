@@ -10,6 +10,8 @@ import 'package:kojaem_novel_game_prototype/main.dart';
 
 class RouterGame extends FlameGame {
   late final RouterComponent router;
+  bool playBgm = true;
+  bool playDialogueSounds = true;
 
   @override
   Future<void> onLoad() async {
@@ -225,6 +227,95 @@ class BackRouteButton extends SimpleButton with HasGameReference<RouterGame> {
   void action() => game.router.pop();
 }
 
+class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
+  BgmToggleButton()
+      : super(
+          _createMusicIconPath(),
+          position: Vector2(120, 10),
+        );
+
+  bool get isBgmOn => game.playBgm;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    size = Vector2(40, 40); // 버튼의 크기 설정
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    // 버튼 배경 그리기
+    // final bgPaint = Paint()
+    //   ..color = CustomColor.black
+    //   ..style = PaintingStyle.fill;
+    // canvas.drawRRect(
+    //   RRect.fromRectAndRadius(size.toRect(), const Radius.circular(8)),
+    //   bgPaint,
+    // );
+
+    // 음악 아이콘 그리기
+    // final iconPaint = Paint()
+    // ..color = CustomColor.white
+    // ..style = PaintingStyle.stroke
+    // ..strokeWidth = 1;
+
+    // canvas.drawPath(_createMusicIconPath(), iconPaint);
+
+    // 음소거 상태 표시 (음악이 꺼져 있을 때)
+    if (!isBgmOn) {
+      final mutePath = Path()
+        ..moveTo(5, 5)
+        ..lineTo(35, 35);
+      final mutePaint = Paint()
+        ..color = CustomColor.white
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3;
+
+      canvas.drawPath(mutePath, mutePaint);
+    }
+  }
+
+  @override
+  void action() {
+    game.playBgm = !game.playBgm;
+    if (game.playBgm) {
+      _playBgm();
+    } else {
+      _stopBgm();
+    }
+  }
+
+  void _playBgm() {
+    game.playBgm = true;
+  }
+
+  void _stopBgm() {
+    game.playBgm = false;
+  }
+
+  // 음악 아이콘을 그리는 Path를 생성하는 메서드
+  // 음표 아이콘을 그리는 Path를 생성하는 메서드
+  static Path _createMusicIconPath() {
+    final path = Path();
+
+    // 음표의 머리 부분 (타원형)
+    path.addOval(const Rect.fromLTWH(14, 24, 12, 8)); // 타원형의 경계 설정
+
+    // 음표의 줄기 부분
+    path.moveTo(25, 24); // 줄기 시작 (음표 머리의 오른쪽 끝에서 시작)
+    path.lineTo(25, 10); // 위로 직선 (줄기)
+
+    // 음표의 깃발 부분 (곡선으로 깃발을 표현)
+    path.moveTo(25, 10); // 깃발 시작점
+    path.quadraticBezierTo(28, 12, 30, 6); // 첫 번째 곡선
+    path.quadraticBezierTo(32, 4, 30, 14); // 두 번째 곡선
+
+    return path;
+  }
+}
+
 class PauseButton extends SimpleButton with HasGameReference<RouterGame> {
   PauseButton()
       : super(
@@ -281,6 +372,7 @@ class Level2Page extends Component {
       Background(const Color(0xff052b44)),
       BackRouteButton(),
       PauseButton(),
+      BgmToggleButton(),
       Planet(
         radius: 30,
         color: const Color(0xFFFFFFff),

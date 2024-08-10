@@ -39,7 +39,6 @@ void main() async {
 
 class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
   YarnProject yarnProject = YarnProject();
-  bool isPlayingSound = false;
   var sound;
 
   // * 웹 배포시 주석 해제
@@ -49,7 +48,9 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
   FutureOr<void> onLoad() async {
     await game.images.loadAllImages();
 
-    FlameAudio.bgm.play('HYP - Picnic.mp3');
+    if (game.playBgm) {
+      FlameAudio.bgm.play('HYP - Picnic.mp3');
+    }
 
     String startDialogueData =
         await rootBundle.loadString('assets/yarn/start.yarn');

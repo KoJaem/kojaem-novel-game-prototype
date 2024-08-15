@@ -172,15 +172,18 @@ class RoundedButton extends PositionComponent with TapCallbacks {
 }
 
 abstract class SimpleButton extends PositionComponent with TapCallbacks {
-  SimpleButton(this._iconPath, {super.position}) : super(size: Vector2.all(40));
+  SimpleButton(this._iconPath, {super.position, double? strokeWidth})
+      : _iconPaint = Paint()
+          ..style = PaintingStyle.stroke
+          ..color = const Color(0xffaaaaaa)
+          ..strokeWidth = strokeWidth ?? 7,
+        super(size: Vector2.all(40));
 
   final Paint _borderPaint = Paint()
     ..style = PaintingStyle.stroke
     ..color = const Color(0x66ffffff);
-  final Paint _iconPaint = Paint()
-    ..style = PaintingStyle.stroke
-    ..color = const Color(0xffaaaaaa)
-    ..strokeWidth = 7;
+
+  final Paint _iconPaint; // 생성자에서 초기화하므로 여기서는 초기화하지 않음
   final Path _iconPath;
 
   void action();
@@ -232,6 +235,7 @@ class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
       : super(
           _createMusicIconPath(),
           position: Vector2(120, 10),
+          strokeWidth: 3,
         );
 
   bool get isBgmOn => game.playBgm;
@@ -295,25 +299,55 @@ class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
     game.playBgm = false;
   }
 
-  // 음악 아이콘을 그리는 Path를 생성하는 메서드
-  // 음표 아이콘을 그리는 Path를 생성하는 메서드
+// 음악 아이콘을 그리는 Path를 생성하는 메서드
   static Path _createMusicIconPath() {
     final path = Path();
 
-    // 음표의 머리 부분 (타원형)
-    path.addOval(const Rect.fromLTWH(14, 24, 12, 8)); // 타원형의 경계 설정
+    // 첫 번째 음표의 머리 부분 (타원형)
+    path.addOval(Rect.fromCircle(center: const Offset(12, 28), radius: 6));
 
-    // 음표의 줄기 부분
-    path.moveTo(25, 24); // 줄기 시작 (음표 머리의 오른쪽 끝에서 시작)
-    path.lineTo(25, 10); // 위로 직선 (줄기)
+    // 두 번째 음표의 머리 부분 (타원형)
+    path.addOval(Rect.fromCircle(center: const Offset(28, 28), radius: 6));
 
-    // 음표의 깃발 부분 (곡선으로 깃발을 표현)
-    path.moveTo(25, 10); // 깃발 시작점
-    path.quadraticBezierTo(28, 12, 30, 6); // 첫 번째 곡선
-    path.quadraticBezierTo(32, 4, 30, 14); // 두 번째 곡선
+    // 음표의 줄기 부분 (첫 번째 음표 줄기)
+    path.moveTo(18, 28); // 첫 번째 음표의 오른쪽에서 시작
+    path.lineTo(18, 10); // 위쪽으로 줄기 그리기
+
+    // 음표의 줄기 부분 (두 번째 음표 줄기)
+    path.moveTo(34, 28); // 두 번째 음표의 오른쪽에서 시작
+    path.lineTo(34, 10); // 위쪽으로 줄기 그리기
+
+    // 음표의 줄기 연결 부분 (윗부분 연결)
+    path.moveTo(18, 10); // 첫 번째 줄기의 윗부분
+    path.lineTo(34, 10); // 두 번째 줄기의 윗부분까지 수평으로 연결
 
     return path;
   }
+
+  // // 음악 아이콘을 그리는 Path를 생성하는 메서드
+  // static Path _createMusicIconPath() {
+  //   final path = Path();
+
+  //   // 첫 번째 음표의 머리 부분 (타원형)
+  //   path.addOval(Rect.fromCircle(center: const Offset(20, 70), radius: 10));
+
+  //   // 두 번째 음표의 머리 부분 (타원형)
+  //   path.addOval(Rect.fromCircle(center: const Offset(50, 70), radius: 10));
+
+  //   // 음표의 줄기 부분 (첫 번째 음표 줄기)
+  //   path.moveTo(30, 70); // 첫 번째 음표의 오른쪽에서 시작
+  //   path.lineTo(30, 20); // 위쪽으로 줄기 그리기
+
+  //   // 음표의 줄기 부분 (두 번째 음표 줄기)
+  //   path.moveTo(60, 70); // 두 번째 음표의 오른쪽에서 시작
+  //   path.lineTo(60, 20); // 위쪽으로 줄기 그리기
+
+  //   // 음표의 줄기 연결 부분 (윗부분 연결)
+  //   path.moveTo(30, 20); // 첫 번째 줄기의 윗부분
+  //   path.lineTo(60, 20); // 두 번째 줄기의 윗부분까지 수평으로 연결
+
+  //   return path;
+  // }
 }
 
 class PauseButton extends SimpleButton with HasGameReference<RouterGame> {

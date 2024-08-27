@@ -39,7 +39,7 @@ class SplashScreenPage extends Component
     addAll([
       Background(const Color(0xff282828)),
       TextBoxComponent(
-        text: '[화면을 클릭해주세요]',
+        text: '[3초 뒤 이동]',
         textRenderer: TextPaint(
           style: const TextStyle(
             color: CustomColor.brightGray,
@@ -50,13 +50,15 @@ class SplashScreenPage extends Component
         size: game.canvasSize,
       ),
     ]);
+
+    // 3초 후에 home 페이지로 이동
+    Future.delayed(const Duration(seconds: 3), () {
+      game.router.pushNamed('home');
+    });
   }
 
   @override
   bool containsLocalPoint(Vector2 point) => true;
-
-  @override
-  void onTapUp(TapUpEvent event) => game.router.pushNamed('home');
 }
 
 class StartPage extends Component with HasGameReference<RouterGame> {

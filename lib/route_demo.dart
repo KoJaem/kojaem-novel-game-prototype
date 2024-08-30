@@ -7,6 +7,8 @@ import 'package:flame/rendering.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kojaem_novel_game_prototype/constants/customColor.dart';
 import 'package:kojaem_novel_game_prototype/main.dart';
+import 'package:kojaem_novel_game_prototype/splash_screen_page.dart';
+import 'package:kojaem_novel_game_prototype/start_page.dart';
 
 class RouterGame extends FlameGame {
   late final RouterComponent router;
@@ -29,77 +31,6 @@ class RouterGame extends FlameGame {
         initialRoute: 'splash',
       ),
     );
-  }
-}
-
-class SplashScreenPage extends Component
-    with TapCallbacks, HasGameReference<RouterGame> {
-  @override
-  Future<void> onLoad() async {
-    addAll([
-      Background(const Color(0xff282828)),
-      TextBoxComponent(
-        text: '[3초 뒤 이동]',
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            color: CustomColor.brightGray,
-            fontSize: 16,
-          ),
-        ),
-        align: Anchor.center,
-        size: game.canvasSize,
-      ),
-    ]);
-
-    // 3초 후에 home 페이지로 이동
-    Future.delayed(const Duration(seconds: 3), () {
-      game.router.pushNamed('home');
-    });
-  }
-
-  @override
-  bool containsLocalPoint(Vector2 point) => true;
-}
-
-class StartPage extends Component with HasGameReference<RouterGame> {
-  StartPage() {
-    addAll([
-      _logo = TextComponent(
-        text: 'Lobby',
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            fontSize: 64,
-            color: Color(0xFFC8FFF5),
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-        anchor: Anchor.center,
-      ),
-      _button1 = RoundedButton(
-        text: 'Level 1',
-        action: () => game.router.pushNamed('level1'),
-        color: const Color(0xffadde6c),
-        borderColor: const Color(0xffedffab),
-      ),
-      _button2 = RoundedButton(
-        text: 'Level 2',
-        action: () => game.router.pushNamed('level2'),
-        color: const Color(0xffdebe6c),
-        borderColor: const Color(0xfffff4c7),
-      ),
-    ]);
-  }
-
-  late final TextComponent _logo;
-  late final RoundedButton _button1;
-  late final RoundedButton _button2;
-
-  @override
-  void onGameResize(Vector2 size) {
-    super.onGameResize(size);
-    _logo.position = Vector2(size.x / 2, size.y / 3);
-    _button1.position = Vector2(size.x / 2, _logo.y + 80);
-    _button2.position = Vector2(size.x / 2, _logo.y + 140);
   }
 }
 
@@ -400,6 +331,7 @@ class Level1Page extends Component {
   }
 }
 
+// Todo 삭제 or 다른페이지로 변경
 class Level2Page extends Component {
   @override
   Future<void> onLoad() async {

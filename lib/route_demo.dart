@@ -148,7 +148,8 @@ abstract class SimpleButton extends PositionComponent with TapCallbacks {
 }
 
 class BackRouteButton extends SimpleButton with HasGameReference<RouterGame> {
-  BackRouteButton()
+  // position 값을 props로 받을 수 있도록 생성자에 position 파라미터 추가
+  BackRouteButton({Vector2? position})
       : super(
           Path()
             ..moveTo(22, 8)
@@ -156,7 +157,8 @@ class BackRouteButton extends SimpleButton with HasGameReference<RouterGame> {
             ..lineTo(22, 32)
             ..moveTo(12, 20)
             ..lineTo(34, 20),
-          position: Vector2.all(10),
+          // 전달된 position 값이 null 이면 기본값 Vector2.all(10) 사용
+          position: position ?? Vector2.all(10),
         );
 
   @override
@@ -164,10 +166,12 @@ class BackRouteButton extends SimpleButton with HasGameReference<RouterGame> {
 }
 
 class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
-  BgmToggleButton()
+  // position 값을 props로 받을 수 있도록 생성자에 position 파라미터 추가
+  BgmToggleButton({Vector2? position})
       : super(
           _createMusicIconPath(),
-          position: Vector2(120, 10),
+          // 전달된 position 값이 null 이면 기본값 Vector2(120, 10) 사용
+          position: position ?? Vector2(120, 10),
           strokeWidth: 3,
         );
 
@@ -183,24 +187,6 @@ class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
   void render(Canvas canvas) {
     super.render(canvas);
 
-    // 버튼 배경 그리기
-    // final bgPaint = Paint()
-    //   ..color = CustomColor.black
-    //   ..style = PaintingStyle.fill;
-    // canvas.drawRRect(
-    //   RRect.fromRectAndRadius(size.toRect(), const Radius.circular(8)),
-    //   bgPaint,
-    // );
-
-    // 음악 아이콘 그리기
-    // final iconPaint = Paint()
-    // ..color = CustomColor.white
-    // ..style = PaintingStyle.stroke
-    // ..strokeWidth = 1;
-
-    // canvas.drawPath(_createMusicIconPath(), iconPaint);
-
-    // 음소거 상태 표시 (음악이 꺼져 있을 때)
     if (!isBgmOn) {
       final mutePath = Path()
         ..moveTo(5, 5)
@@ -232,67 +218,36 @@ class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
     game.playBgm = false;
   }
 
-// 음악 아이콘을 그리는 Path를 생성하는 메서드
+  // 음악 아이콘을 그리는 Path를 생성하는 메서드
   static Path _createMusicIconPath() {
     final path = Path();
 
-    // 첫 번째 음표의 머리 부분 (타원형)
     path.addOval(Rect.fromCircle(center: const Offset(12, 28), radius: 6));
-
-    // 두 번째 음표의 머리 부분 (타원형)
     path.addOval(Rect.fromCircle(center: const Offset(28, 28), radius: 6));
-
-    // 음표의 줄기 부분 (첫 번째 음표 줄기)
-    path.moveTo(18, 28); // 첫 번째 음표의 오른쪽에서 시작
-    path.lineTo(18, 10); // 위쪽으로 줄기 그리기
-
-    // 음표의 줄기 부분 (두 번째 음표 줄기)
-    path.moveTo(34, 28); // 두 번째 음표의 오른쪽에서 시작
-    path.lineTo(34, 10); // 위쪽으로 줄기 그리기
-
-    // 음표의 줄기 연결 부분 (윗부분 연결)
-    path.moveTo(18, 10); // 첫 번째 줄기의 윗부분
-    path.lineTo(34, 10); // 두 번째 줄기의 윗부분까지 수평으로 연결
+    path.moveTo(18, 28);
+    path.lineTo(18, 10);
+    path.moveTo(34, 28);
+    path.lineTo(34, 10);
+    path.moveTo(18, 10);
+    path.lineTo(34, 10);
 
     return path;
   }
-
-  // // 음악 아이콘을 그리는 Path를 생성하는 메서드
-  // static Path _createMusicIconPath() {
-  //   final path = Path();
-
-  //   // 첫 번째 음표의 머리 부분 (타원형)
-  //   path.addOval(Rect.fromCircle(center: const Offset(20, 70), radius: 10));
-
-  //   // 두 번째 음표의 머리 부분 (타원형)
-  //   path.addOval(Rect.fromCircle(center: const Offset(50, 70), radius: 10));
-
-  //   // 음표의 줄기 부분 (첫 번째 음표 줄기)
-  //   path.moveTo(30, 70); // 첫 번째 음표의 오른쪽에서 시작
-  //   path.lineTo(30, 20); // 위쪽으로 줄기 그리기
-
-  //   // 음표의 줄기 부분 (두 번째 음표 줄기)
-  //   path.moveTo(60, 70); // 두 번째 음표의 오른쪽에서 시작
-  //   path.lineTo(60, 20); // 위쪽으로 줄기 그리기
-
-  //   // 음표의 줄기 연결 부분 (윗부분 연결)
-  //   path.moveTo(30, 20); // 첫 번째 줄기의 윗부분
-  //   path.lineTo(60, 20); // 두 번째 줄기의 윗부분까지 수평으로 연결
-
-  //   return path;
-  // }
 }
 
 class PauseButton extends SimpleButton with HasGameReference<RouterGame> {
-  PauseButton()
+  // position 값을 props로 받을 수 있도록 생성자에 position 파라미터 추가
+  PauseButton({Vector2? position})
       : super(
           Path()
             ..moveTo(14, 10)
             ..lineTo(14, 30)
             ..moveTo(26, 10)
             ..lineTo(26, 30),
-          position: Vector2(60, 10),
+          // 전달된 position 값이 null 이면 기본값 Vector2(60, 10) 사용
+          position: position ?? Vector2(60, 10),
         );
+
   @override
   void action() => game.router.pushNamed('pause');
 }

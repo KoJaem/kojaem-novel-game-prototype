@@ -25,8 +25,8 @@ class RouterGame extends FlameGame {
         routes: {
           'splash': Route(SplashScreenPage.new),
           'home': Route(StartPage.new),
-          'level1': Route(JennyGame.new),
-          'level2': Route(Level2Page.new),
+          'newGame': Route(JennyGame.new),
+          'continueGame': Route(Level2Page.new),
           'pause': PauseRoute(),
         },
         initialRoute: 'splash',
@@ -254,40 +254,6 @@ class PauseButton extends SimpleButton with HasGameReference<RouterGame> {
 
   @override
   void action() => game.router.pushNamed('pause');
-}
-
-class Level1Page extends Component {
-  @override
-  Future<void> onLoad() async {
-    final game = findGame()!;
-    addAll([
-      Background(const Color(0xbb2a074f)),
-      BackRouteButton(),
-      PauseButton(),
-      Planet(
-        radius: 25,
-        color: const Color(0xfffff188),
-        position: game.size / 2,
-        children: [
-          Orbit(
-            radius: 110,
-            revolutionPeriod: 6,
-            planet: Planet(
-              radius: 10,
-              color: const Color(0xff54d7b1),
-              children: [
-                Orbit(
-                  radius: 25,
-                  revolutionPeriod: 5,
-                  planet: Planet(radius: 3, color: const Color(0xFFcccccc)),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ]);
-  }
 }
 
 // Todo 삭제 or 다른페이지로 변경

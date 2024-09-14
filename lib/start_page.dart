@@ -20,19 +20,19 @@ class StartPage extends Component with HasGameReference<RouterGame> {
         anchor: Anchor.center,
       ),
       _button1 = RoundedButton(
-        text: 'Level 1',
+        text: '새로하기',
         action: () {
           if (game.playBgm) {
             FlameAudio.bgm.play('HYP - Picnic.mp3');
           }
-          game.router.pushNamed('level1');
+          game.router.pushNamed('newGame');
         },
         color: const Color(0xffadde6c),
         borderColor: const Color(0xffedffab),
       ),
       _button2 = RoundedButton(
-        text: 'Level 2',
-        action: () => game.router.pushNamed('level2'),
+        text: '이어하기',
+        action: () => game.router.pushNamed('continueGame'),
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),
       ),

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:jenny/jenny.dart';
 import 'package:kojaem_novel_game_prototype/project_view_component.dart';
-import 'package:kojaem_novel_game_prototype/route_demo.dart';
+import 'package:kojaem_novel_game_prototype/route.dart';
 
 import 'constants/customColor.dart';
 // import 'package:kojaem_novel_game_prototype/project_view_component.dart';
@@ -48,9 +48,9 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
   FutureOr<void> onLoad() async {
     await game.images.loadAllImages();
 
-    if (game.playBgm) {
-      FlameAudio.bgm.play('HYP - Picnic.mp3');
-    }
+    // if (game.playBgm) {
+    //   FlameAudio.bgm.play('HYP - Picnic.mp3');
+    // }
 
     String startDialogueData =
         await rootBundle.loadString('assets/yarn/start.yarn');
@@ -191,8 +191,8 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
 
     addAll([
       projectViewComponent,
-      BackRouteButton(),
-      PauseButton(),
+      BackRouteButton(position: Vector2(20, 10)),
+      PauseButton(position: Vector2(70, 10)),
     ]);
   }
 }

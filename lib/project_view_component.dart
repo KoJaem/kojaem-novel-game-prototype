@@ -9,7 +9,7 @@ import 'package:jenny/jenny.dart';
 import 'package:kojaem_novel_game_prototype/constants/customColor.dart';
 import 'package:kojaem_novel_game_prototype/dialogue_overlay.dart';
 import 'package:kojaem_novel_game_prototype/main_dialogue_text_component.dart';
-import 'package:kojaem_novel_game_prototype/route_demo.dart';
+import 'package:kojaem_novel_game_prototype/route.dart';
 import 'package:kojaem_novel_game_prototype/rrect_dialogue_overlay.dart';
 
 class ProjectViewComponent extends PositionComponent

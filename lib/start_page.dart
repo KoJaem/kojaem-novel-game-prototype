@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:kojaem_novel_game_prototype/route_demo.dart';
+import 'package:kojaem_novel_game_prototype/route.dart';
 
 class StartPage extends Component with HasGameReference<RouterGame> {
   StartPage() {
@@ -20,7 +21,12 @@ class StartPage extends Component with HasGameReference<RouterGame> {
       ),
       _button1 = RoundedButton(
         text: 'Level 1',
-        action: () => game.router.pushNamed('level1'),
+        action: () {
+          if (game.playBgm) {
+            FlameAudio.bgm.play('HYP - Picnic.mp3');
+          }
+          game.router.pushNamed('level1');
+        },
         color: const Color(0xffadde6c),
         borderColor: const Color(0xffedffab),
       ),

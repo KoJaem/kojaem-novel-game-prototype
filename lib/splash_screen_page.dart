@@ -3,7 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:kojaem_novel_game_prototype/constants/customColor.dart';
-import 'package:kojaem_novel_game_prototype/route_demo.dart';
+import 'package:kojaem_novel_game_prototype/route.dart';
 
 class SplashScreenPage extends Component
     with TapCallbacks, HasGameReference<RouterGame> {

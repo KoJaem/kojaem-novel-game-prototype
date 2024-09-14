@@ -4,6 +4,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/rendering.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kojaem_novel_game_prototype/constants/customColor.dart';
 import 'package:kojaem_novel_game_prototype/main.dart';
@@ -162,7 +163,10 @@ class BackRouteButton extends SimpleButton with HasGameReference<RouterGame> {
         );
 
   @override
-  void action() => game.router.pop();
+  void action() {
+    FlameAudio.bgm.stop();
+    game.router.pop();
+  }
 }
 
 class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
@@ -293,9 +297,9 @@ class Level2Page extends Component {
     final game = findGame()!;
     addAll([
       Background(const Color(0xff052b44)),
-      BackRouteButton(),
-      PauseButton(),
-      BgmToggleButton(),
+      BackRouteButton(position: Vector2(20, 10)),
+      PauseButton(position: Vector2(70, 10)),
+      BgmToggleButton(position: Vector2(120, 10)),
       Planet(
         radius: 30,
         color: const Color(0xFFFFFFff),

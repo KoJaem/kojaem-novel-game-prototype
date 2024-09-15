@@ -7,7 +7,7 @@ import 'package:flame/rendering.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kojaem_novel_game_prototype/constants/customColor.dart';
-import 'package:kojaem_novel_game_prototype/main.dart';
+import 'package:kojaem_novel_game_prototype/jenny_game.dart';
 import 'package:kojaem_novel_game_prototype/splash_screen_page.dart';
 import 'package:kojaem_novel_game_prototype/start_page.dart';
 
@@ -253,7 +253,13 @@ class PauseButton extends SimpleButton with HasGameReference<RouterGame> {
         );
 
   @override
-  void action() => game.router.pushNamed('pause');
+  void action() {
+    game.router.pushNamed('pause');
+
+    if (FlameAudio.bgm.isPlaying) {
+      FlameAudio.bgm.stop();
+    }
+  }
 }
 
 // Todo 삭제 or 다른페이지로 변경
@@ -351,7 +357,7 @@ class Orbit extends PositionComponent {
   }
 }
 
-class PauseRoute extends Route {
+class PauseRoute extends Route with HasGameReference<RouterGame> {
   PauseRoute() : super(PausePage.new, transparent: true);
 
   @override
@@ -368,6 +374,10 @@ class PauseRoute extends Route {
     nextRoute
       ..resumeTime()
       ..removeRenderEffect();
+
+    if (!FlameAudio.bgm.isPlaying && game.playBgm) {
+      FlameAudio.bgm.play('HYP - Picnic.mp3');
+    }
   }
 }
 

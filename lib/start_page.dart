@@ -6,8 +6,8 @@ import 'package:kojaem_novel_game_prototype/route.dart';
 class StartPage extends Component with HasGameReference<RouterGame> {
   StartPage() {
     addAll([
-      PauseButton(position: Vector2(20, 10)),
-      BgmToggleButton(position: Vector2(70, 10)),
+      // PauseButton(position: Vector2(20, 10)),
+      BgmToggleButton(position: Vector2(20, 10)),
       _logo = TextComponent(
         text: 'Lobby',
         textRenderer: TextPaint(

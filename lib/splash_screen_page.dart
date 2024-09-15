@@ -17,6 +17,8 @@ class SplashScreenPage extends Component
           style: const TextStyle(
             color: CustomColor.brightGray,
             fontSize: 16,
+            fontFamily: 'GmarketSans',
+            fontWeight: FontWeight.w700,
           ),
         ),
         align: Anchor.center,

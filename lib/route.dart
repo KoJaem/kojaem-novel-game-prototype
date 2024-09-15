@@ -18,8 +18,6 @@ class RouterGame extends FlameGame {
 
   @override
   Future<void> onLoad() async {
-    // await images.loadAllImages();
-
     add(
       router = RouterComponent(
         routes: {
@@ -56,8 +54,9 @@ class RoundedButton extends PositionComponent with TapCallbacks {
   }) : _textDrawable = TextPaint(
           style: const TextStyle(
             fontSize: 20,
+            fontFamily: 'GmarketSans',
             color: Color(0xFF000000),
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
           ),
         ).toTextPainter(text) {
     size = Vector2(150, 40);
@@ -390,6 +389,14 @@ class PausePage extends Component
       TextComponent(
         text: 'PAUSED',
         position: game.canvasSize / 2,
+        textRenderer: TextPaint(
+          style: const TextStyle(
+            fontSize: 20,
+            fontFamily: 'GmarketSans',
+            color: Color(0xFFC8FFF5),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         anchor: Anchor.center,
         children: [
           ScaleEffect.to(

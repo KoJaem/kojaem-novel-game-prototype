@@ -13,8 +13,9 @@ class StartPage extends Component with HasGameReference<RouterGame> {
         textRenderer: TextPaint(
           style: const TextStyle(
             fontSize: 64,
+            fontFamily: 'GmarketSans',
             color: Color(0xFFC8FFF5),
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
           ),
         ),
         anchor: Anchor.center,

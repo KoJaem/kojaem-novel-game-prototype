@@ -38,11 +38,14 @@ class ProjectViewComponent extends PositionComponent
   List<ButtonComponent> optionsList = [];
 
   final textPaint = TextPaint(
-      style: const TextStyle(
-    color: CustomColor.brightGray,
-    fontSize: 20,
-    height: 1.4,
-  ));
+    style: const TextStyle(
+      fontFamily: 'GmarketSans', // GmarketSans 폰트 적용
+      fontWeight: FontWeight.w400,
+      color: CustomColor.brightGray,
+      fontSize: 20,
+      height: 1.4,
+    ),
+  );
 
   @override
   FutureOr<void> onLoad() {

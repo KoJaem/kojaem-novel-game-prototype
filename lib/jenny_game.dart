@@ -149,6 +149,18 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
       pref.setString('story', story);
     }
 
+    void remove_overlay() {
+      projectViewComponent.mainDialogueOverlay.removeFromParent();
+      projectViewComponent.nameDialogueOverlay.removeFromParent();
+    }
+
+    void add_overlay() {
+      projectViewComponent.mainDialogueOverlay
+          .addToParent(projectViewComponent);
+      projectViewComponent.nameDialogueOverlay
+          .addToParent(projectViewComponent);
+    }
+
     yarnProject
       ..commands
           .addCommand2('change_image_with_animation', imageChangeWithAnimation)
@@ -160,6 +172,8 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
           'remove_textbox_with_animation', removeTextBoxWithAnimation)
       ..commands.addCommand1('start_sound', startSound)
       ..commands.addCommand1('auto_save', autoSave)
+      ..commands.addCommand0('remove_overlay', remove_overlay)
+      ..commands.addCommand0('add_overlay', add_overlay)
       ..parse(startDialogueData)
       ..parse(consultationData);
 

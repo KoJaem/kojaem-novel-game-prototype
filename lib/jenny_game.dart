@@ -9,6 +9,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:jenny/jenny.dart';
 import 'package:kojaem_novel_game_prototype/project_view_component.dart';
 import 'package:kojaem_novel_game_prototype/route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants/customColor.dart';
 
@@ -22,6 +23,8 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
   @override
   FutureOr<void> onLoad() async {
     await game.images.loadAllImages();
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    final storyName = pref.getString('story') ?? 'start';
 
     // if (game.playBgm) {
     //   FlameAudio.bgm.play('HYP - Picnic.mp3');
@@ -141,6 +144,23 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
       );
     }
 
+    void autoSave(String story) async {
+      final SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString('story', story);
+    }
+
+    void remove_overlay() {
+      projectViewComponent.mainDialogueOverlay.removeFromParent();
+      projectViewComponent.nameDialogueOverlay.removeFromParent();
+    }
+
+    void add_overlay() {
+      projectViewComponent.mainDialogueOverlay
+          .addToParent(projectViewComponent);
+      projectViewComponent.nameDialogueOverlay
+          .addToParent(projectViewComponent);
+    }
+
     yarnProject
       ..commands
           .addCommand2('change_image_with_animation', imageChangeWithAnimation)
@@ -151,10 +171,13 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
       ..commands.addCommand0(
           'remove_textbox_with_animation', removeTextBoxWithAnimation)
       ..commands.addCommand1('start_sound', startSound)
+      ..commands.addCommand1('auto_save', autoSave)
+      ..commands.addCommand0('remove_overlay', remove_overlay)
+      ..commands.addCommand0('add_overlay', add_overlay)
       ..parse(startDialogueData)
       ..parse(consultationData);
 
-    dialogueRunner.startDialogue('start');
+    dialogueRunner.startDialogue(storyName);
 
     // CameraComponent cam = CameraComponent.withFixedResolution(
     //   world: world,
@@ -167,7 +190,7 @@ class JennyGame extends Component with HasGameRef<RouterGame>, TapCallbacks {
     addAll([
       projectViewComponent,
       // BackRouteButton(position: Vector2(20, 10)),
-      PauseButton(position: Vector2(20, 10)),
+      // PauseButton(position: Vector2(20, 10)),
     ]);
   }
 }

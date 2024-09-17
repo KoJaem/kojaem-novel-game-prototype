@@ -14,7 +14,7 @@ import 'package:kojaem_novel_game_prototype/start_page.dart';
 class RouterGame extends FlameGame {
   late final RouterComponent router;
   bool playBgm = true;
-  bool playDialogueSounds = true;
+  bool autoSave = true;
 
   @override
   Future<void> onLoad() async {
@@ -24,10 +24,10 @@ class RouterGame extends FlameGame {
           'splash': Route(SplashScreenPage.new),
           'home': Route(StartPage.new),
           'newGame': Route(JennyGame.new),
-          'continueGame': Route(Level2Page.new),
+          'continueGame': Route(JennyGame.new),
           'pause': PauseRoute(),
         },
-        initialRoute: 'splash',
+        initialRoute: 'home',
       ),
     );
   }
@@ -192,10 +192,12 @@ class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
 
     if (!isBgmOn) {
       final mutePath = Path()
-        ..moveTo(5, 5)
-        ..lineTo(35, 35);
+        ..moveTo(5, 5) // 왼쪽 위에서
+        ..lineTo(35, 35); // 오른쪽 아래로 그리는 첫 번째 대각선
+      // ..moveTo(35, 5) // 오른쪽 위에서
+      // ..lineTo(5, 35); // 왼쪽 아래로 그리는 두 번째 대각선
       final mutePaint = Paint()
-        ..color = CustomColor.white
+        ..color = CustomColor.brightGray
         ..style = PaintingStyle.stroke
         ..strokeWidth = 3;
 
@@ -228,11 +230,92 @@ class BgmToggleButton extends SimpleButton with HasGameReference<RouterGame> {
     path.addOval(Rect.fromCircle(center: const Offset(12, 28), radius: 6));
     path.addOval(Rect.fromCircle(center: const Offset(28, 28), radius: 6));
     path.moveTo(18, 28);
-    path.lineTo(18, 10);
+    path.lineTo(18, 8);
     path.moveTo(34, 28);
-    path.lineTo(34, 10);
-    path.moveTo(18, 10);
-    path.lineTo(34, 10);
+    path.lineTo(34, 8);
+    path.moveTo(18, 8);
+    path.lineTo(34, 8);
+
+    // 새로운 줄 추가
+    // path.moveTo(18, 16);
+    // path.lineTo(34, 16);
+
+    return path;
+  }
+}
+
+class AutoSaveToggleButton extends SimpleButton
+    with HasGameReference<RouterGame> {
+  // position 값을 props로 받을 수 있도록 생성자에 position 파라미터 추가
+  AutoSaveToggleButton({Vector2? position})
+      : super(
+          _createAutoSaveIconPath(),
+          // 전달된 position 값이 null 이면 기본값 Vector2(160, 10) 사용
+          position: position ?? Vector2(160, 10),
+          strokeWidth: 3,
+        );
+
+  bool get isAutoSaveOn => game.autoSave;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    size = Vector2(40, 40); // 버튼의 크기 설정
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    if (!isAutoSaveOn) {
+      final mutePath = Path()
+        ..moveTo(5, 5)
+        ..lineTo(35, 35);
+      final mutePaint = Paint()
+        ..color = CustomColor.white
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3;
+
+      canvas.drawPath(mutePath, mutePaint);
+    }
+  }
+
+  @override
+  void action() {
+    game.autoSave = !game.autoSave;
+    if (game.autoSave) {
+      _enableAutoSave();
+    } else {
+      _disableAutoSave();
+    }
+  }
+
+  void _enableAutoSave() {
+    game.autoSave = true;
+  }
+
+  void _disableAutoSave() {
+    game.autoSave = false;
+  }
+
+  // AutoSave 아이콘을 그리는 Path를 생성하는 메서드
+  static Path _createAutoSaveIconPath() {
+    final path = Path();
+
+    // 외곽 사각형 (플로피 디스크의 전체 외곽)
+    path.addRRect(RRect.fromRectAndRadius(
+      const Rect.fromLTWH(6, 6, 28, 28), // x, y, width, height
+      const Radius.circular(3), // 라운드 모서리
+    ));
+
+    // 상단의 작은 네모 (쓰기 금지 영역)
+    path.addRect(const Rect.fromLTWH(12, 6, 16, 8));
+
+    // 디스크 본체 아래 부분
+    path.addRRect(RRect.fromRectAndRadius(
+      const Rect.fromLTWH(10, 20, 20, 10), // x, y, width, height
+      const Radius.circular(2), // 라운드 모서리
+    ));
 
     return path;
   }
@@ -258,52 +341,6 @@ class PauseButton extends SimpleButton with HasGameReference<RouterGame> {
     if (FlameAudio.bgm.isPlaying) {
       FlameAudio.bgm.stop();
     }
-  }
-}
-
-// Todo 삭제 or 다른페이지로 변경
-class Level2Page extends Component {
-  @override
-  Future<void> onLoad() async {
-    final game = findGame()!;
-    addAll([
-      Background(const Color(0xff052b44)),
-      BackRouteButton(position: Vector2(20, 10)),
-      PauseButton(position: Vector2(70, 10)),
-      BgmToggleButton(position: Vector2(120, 10)),
-      Planet(
-        radius: 30,
-        color: const Color(0xFFFFFFff),
-        position: game.size / 2,
-        children: [
-          Orbit(
-            radius: 60,
-            revolutionPeriod: 5,
-            planet: Planet(radius: 10, color: const Color(0xffc9ce0d)),
-          ),
-          Orbit(
-            radius: 110,
-            revolutionPeriod: 10,
-            planet: Planet(
-              radius: 14,
-              color: const Color(0xfff32727),
-              children: [
-                Orbit(
-                  radius: 26,
-                  revolutionPeriod: 3,
-                  planet: Planet(radius: 5, color: const Color(0xffffdb00)),
-                ),
-                Orbit(
-                  radius: 35,
-                  revolutionPeriod: 4,
-                  planet: Planet(radius: 3, color: const Color(0xffdc00ff)),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ]);
   }
 }
 

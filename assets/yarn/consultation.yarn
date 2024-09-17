@@ -1,10 +1,12 @@
 <<character "의사" doctor>>
 title: consultation
 ---
+<<remove_overlay>>
 <<wait 1>>
-<<change_dialogue_color "all" "darkBlueGray" >>
 <<create_textbox>>
+<<change_dialogue_color "all" "darkBlueGray" >>
 <<wait 1>>
+<<add_overlay>>
 여자1은 A회사 플랫폼을 사용하여 온라인 상담을 신청하였다.\n(의사의 말은 번역이 되고있다고 생각해주세요.)
 <<remove_textbox_with_animation>>
 <<wait 1>>

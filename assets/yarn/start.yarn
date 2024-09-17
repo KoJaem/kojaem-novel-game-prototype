@@ -47,6 +47,7 @@ girl: 아 그래?? 어쩐담..
    <<change_image_with_animation "left" "transparent.png">>
    <<change_image_with_animation "right" "transparent.png">>
    <<remove_textbox_with_animation>>
+   <<auto_save "consultation" >>
    <<jump consultation>>
 -> A회사에 글로벌 상담지원을 사용하지 않는다.
    girl: 아니야 됐어.. 그냥 뾰루지 같은데 미국에 상담하는건 오바같아..
@@ -58,5 +59,6 @@ girl: 아 그래?? 어쩐담..
    <<change_image_with_animation "background" "transparent.png">>
    <<change_image_with_animation "left" "transparent.png">>
    <<change_image_with_animation "right" "transparent.png">>
+   <<auto_save "consultation" >>
    <<jump consultation>>
 ===

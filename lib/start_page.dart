@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:kojaem_novel_game_prototype/route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StartPage extends Component with HasGameReference<RouterGame> {
   StartPage() {
@@ -23,10 +24,12 @@ class StartPage extends Component with HasGameReference<RouterGame> {
       ),
       _button1 = RoundedButton(
         text: '새로하기',
-        action: () {
+        action: () async {
           if (game.playBgm) {
             FlameAudio.bgm.play('HYP - Picnic.mp3');
           }
+          final SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setString('story', 'start');
           game.router.pushNamed('newGame');
         },
         color: const Color(0xffadde6c),
@@ -34,7 +37,12 @@ class StartPage extends Component with HasGameReference<RouterGame> {
       ),
       _button2 = RoundedButton(
         text: '이어하기',
-        action: () => game.router.pushNamed('continueGame'),
+        action: () async {
+          if (game.playBgm) {
+            FlameAudio.bgm.play('HYP - Picnic.mp3');
+          }
+          game.router.pushNamed('continueGame');
+        },
         color: const Color(0xffdebe6c),
         borderColor: const Color(0xfffff4c7),
       ),

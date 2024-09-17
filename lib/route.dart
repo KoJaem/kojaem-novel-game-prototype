@@ -24,7 +24,7 @@ class RouterGame extends FlameGame {
           'splash': Route(SplashScreenPage.new),
           'home': Route(StartPage.new),
           'newGame': Route(JennyGame.new),
-          'continueGame': Route(Level2Page.new),
+          'continueGame': Route(JennyGame.new),
           'pause': PauseRoute(),
         },
         initialRoute: 'home',
@@ -341,52 +341,6 @@ class PauseButton extends SimpleButton with HasGameReference<RouterGame> {
     if (FlameAudio.bgm.isPlaying) {
       FlameAudio.bgm.stop();
     }
-  }
-}
-
-// Todo 삭제 or 다른페이지로 변경
-class Level2Page extends Component {
-  @override
-  Future<void> onLoad() async {
-    final game = findGame()!;
-    addAll([
-      Background(const Color(0xff052b44)),
-      BackRouteButton(position: Vector2(20, 10)),
-      PauseButton(position: Vector2(70, 10)),
-      BgmToggleButton(position: Vector2(120, 10)),
-      Planet(
-        radius: 30,
-        color: const Color(0xFFFFFFff),
-        position: game.size / 2,
-        children: [
-          Orbit(
-            radius: 60,
-            revolutionPeriod: 5,
-            planet: Planet(radius: 10, color: const Color(0xffc9ce0d)),
-          ),
-          Orbit(
-            radius: 110,
-            revolutionPeriod: 10,
-            planet: Planet(
-              radius: 14,
-              color: const Color(0xfff32727),
-              children: [
-                Orbit(
-                  radius: 26,
-                  revolutionPeriod: 3,
-                  planet: Planet(radius: 5, color: const Color(0xffffdb00)),
-                ),
-                Orbit(
-                  radius: 35,
-                  revolutionPeriod: 4,
-                  planet: Planet(radius: 3, color: const Color(0xffdc00ff)),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ]);
   }
 }
 

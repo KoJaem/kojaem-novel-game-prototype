@@ -41,7 +41,7 @@
 <br />
 
 ## 🎮 플레이 해보고 싶으시면..
-제 [포트폴리오 사이트](https://kojaem-exhibition.site/)에 방문해주세요! 🚀 <br />
+제 [포트폴리오 사이트](https://kojaem.me/)에 방문해주세요! 🚀 <br />
 
 > [!WARNING]  
 > Flutter 웹 배포 시 초기로딩에 한글폰트가 깨지는 오류가 발생할 수 있으므로<br />
